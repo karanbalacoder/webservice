@@ -1,0 +1,49 @@
+package info.kblogics;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+public class EmployeeDAO {
+	public static Connection getConnection() throws ClassNotFoundException, SQLException {
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		Connection connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "karan", "bala");
+		return connection;
+	}
+	
+	public void insertEmployee(Employee employee) {
+		
+		try {
+			Connection connection = getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement("insert into emp_tbl values(?,?,?)");
+			preparedStatement.setInt(1, employee.getEno());
+			preparedStatement.setString(2, employee.getName());
+			preparedStatement.setDouble(3, employee.getSalary());
+			preparedStatement.executeUpdate();
+		}
+		catch(Exception exception) {
+			exception.printStackTrace();
+		}
+	}
+	
+	public ArrayList<Employee> getEmployees() throws ClassNotFoundException, SQLException{
+		Statement statement = getConnection().createStatement();
+		ResultSet resultSet = statement.executeQuery("select * from emp_tbl");
+		ArrayList<Employee> empList = new ArrayList<Employee>();
+		
+		while(resultSet.next()) {
+			Employee employee = new Employee();
+			employee.setEno(resultSet.getInt(1));
+			employee.setName(resultSet.getString(2));
+			employee.setSalary(resultSet.getDouble(3));
+			empList.add(employee);
+		}
+		
+		return empList;
+	}
+
+}

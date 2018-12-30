@@ -1,0 +1,28 @@
+package info.kblogics;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+
+@Path(value = "/emp")
+public class EmployeeOperations {
+	
+	@POST
+	public void insertRecords() {
+		EmployeeDAO employeeDAO = new EmployeeDAO();
+		employeeDAO.insertEmployee(new Employee(2,"karan",1000d));
+	}
+
+	@GET
+	@Produces("application/xml")
+	public List<Employee> getEmp() throws ClassNotFoundException, SQLException {
+		EmployeeDAO employeeDAO = new EmployeeDAO();
+		ArrayList<Employee> empList = employeeDAO.getEmployees();
+	return empList;	
+	}
+}

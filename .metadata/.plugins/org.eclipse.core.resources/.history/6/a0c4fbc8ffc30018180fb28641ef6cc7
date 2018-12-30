@@ -1,0 +1,38 @@
+package info.kblogics;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.*;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import com.sun.research.ws.wadl.Response;
+
+@Path(value = "/emp")
+public class EmployeeOperations {
+	
+	@DELETE
+	public javax.ws.rs.core.Response insertRecords(Employee employee) {
+		EmployeeDAO employeeDAO = new EmployeeDAO();
+		employeeDAO.insertEmployee(employee);
+		return javax.ws.rs.core.Response.accepted().build();
+	}
+
+	@GET
+	@Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+	public List<Employee> getEmp() throws ClassNotFoundException, SQLException {
+		EmployeeDAO employeeDAO = new EmployeeDAO();
+		ArrayList<Employee> empList = employeeDAO.getEmployees();
+	return empList;	
+	}
+	
+	public Response update() {
+		EmployeeDAO employeeDAO = new EmployeeDAO();
+		
+		return null;
+	}
+}

@@ -1,0 +1,15 @@
+package info.kblogics;
+
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+
+@Path(value = "/emp")
+public class EmployeeOperations {
+	
+	@POST
+	public void insertRecords() {
+		EmployeeDAO employeeDAO = new EmployeeDAO();
+		employeeDAO.insertEmployee(new Employee(2,"karan",1000d));
+	}
+
+}
